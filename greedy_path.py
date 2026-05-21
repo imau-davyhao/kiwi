@@ -3,8 +3,12 @@ import cv2
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from datetime import datetime
+from pathlib import Path
 # 贪心算法规划路径
 def greedy_path_planning(points):
+    if len(points) == 0:
+        return []
+
     # 初始化路径，包含起始点
     path = [points[0].tolist()]  # 使用 tolist() 转换为列表
     # 剩余点集合，移除起始点
@@ -23,6 +27,9 @@ def greedy_path_planning(points):
     return path
 
 def visualize_path(path):
+    if len(path) == 0:
+        return
+
     # 创建一个新的图和三维子图
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -54,6 +61,7 @@ def visualize_path(path):
     now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
     # 保存路径
+    Path("raw_date").mkdir(exist_ok=True)
     save_path = f"raw_date/PA_{now}.png"
 
    # 显示图形 1 秒后自动关闭

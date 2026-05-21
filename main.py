@@ -1,6 +1,7 @@
 
 import numpy as np
 import time
+from pathlib import Path
 from move import move_robot_to_position_cartesian, move_robot_to_position_angel,detecting_location,pollination_signal
 from catch_image import capture_and_save
 from onnx_flower import recognize
@@ -18,6 +19,9 @@ Pitch_offset=0
 Yaw_offset=0
 
 def main():
+    Path("results").mkdir(exist_ok=True)
+    Path("raw_date").mkdir(exist_ok=True)
+
      # 定义四个象限的拍照位置和过渡位置
     quadrants = [
         [Xaxis_offset, Yaxis_offset, Zaxis_offset, Roll_offset, Pitch_offset, Yaw_offset], # 第1象限
@@ -91,6 +95,7 @@ def main():
          # 可视化路径
          visualize_path(planned_path)
 
+        planned_path = np.asarray(planned_path, dtype=float).reshape(-1, 3)
 
         # # # 第六步：机械臂移动**********************************************************************************
         # 提取 tcp_pose 数组的后三个值
